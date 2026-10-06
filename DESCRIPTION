@@ -1,0 +1,21 @@
+Package: matisseR
+Type: Package
+Title: Age-Period-Cohort Analysis of Vital Rates: an R Port of the MATISSE Toolbox
+Version: 0.1.0
+Authors@R: c(
+    person("Adalberto", "Miranda Filho", email = "mirandaa@iarc.who.int", role = c("aut", "cre")),
+    person("Philip S.", "Rosenberg", role = "ctb", comment = "author of the MATISSE MATLAB toolbox and its methods"))
+Description: Lexis diagrams of rates (rates objects, aggregation, zero filling and interpolation of
+    5-year to single-year ages), the New Age-Period-Cohort Model and its estimable functions
+    (longitudinal and cross-sectional age curves, fitted temporal trends, fitted cohort pattern, local
+    drifts), and hypothesis-based comparative age-period-cohort analysis (CAPRICORN), ported from the
+    MATISSE MATLAB toolbox. Includes the MATISSE example datasets and a validation suite.
+License: MIT + file LICENSE
+URL: https://github.com/filhoalm/matisseR
+BugReports: https://github.com/filhoalm/matisseR/issues
+Encoding: UTF-8
+Depends: R (>= 4.1)
+Imports: data.table, stats, utils
+Suggests: ggplot2, patchwork, scales, testthat (>= 3.0.0)
+Config/testthat/edition: 3
+RoxygenNote: 7.3.2

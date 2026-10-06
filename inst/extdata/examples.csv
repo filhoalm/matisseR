@@ -1,0 +1,17 @@
+number,file,matisse_file,sex,site,population,ages,periods
+1,ex01_F_ERpos_breast_NHB.csv,F ER+ breast NHB.csv,F,ER+ breast,non-Hispanic Black,50,27
+2,ex02_F_ERpos_breast_NHW.csv,F ER+ breast NHW.csv,F,ER+ breast,non-Hispanic White,50,27
+3,ex03_F_ERneg_breast_NHB.csv,F ER- breast NHB.csv,F,ER- breast,non-Hispanic Black,50,27
+4,ex04_F_ERneg_breast_NHW.csv,F ER- breast NHW.csv,F,ER- breast,non-Hispanic White,50,27
+5,ex05_F_colon_NHB.csv,F colon NHB.csv,F,colon,non-Hispanic Black,50,27
+6,ex06_F_colon_NHW.csv,F colon NHW.csv,F,colon,non-Hispanic White,50,27
+7,ex07_M_thyroid_AAPI.csv,M thyroid API.csv,M,thyroid,Asian and Pacific Islander,50,27
+8,ex08_M_thyroid_HIS.csv,M thyroid HIS.csv,M,thyroid,Hispanic,50,27
+9,ex09_M_thyroid_NHB.csv,M thyroid NHB.csv,M,thyroid,non-Hispanic Black,50,27
+10,ex10_M_thyroid_NHW.csv,M thyroid NHW.csv,M,thyroid,non-Hispanic White,50,27
+11,ex11_MF_colon_NHW.csv,colon  MF  NHW.csv,MF,colon,non-Hispanic White,50,29
+12,ex12_F_ERneg_breast_NHW.csv,brcaer  F  NHW  ER-.csv,F,ER- breast,non-Hispanic White,50,29
+13,ex13_M_liver_NHW.csv,liver  M  NHW.csv,M,liver,non-Hispanic White,50,29
+14,ex14_F_lung_NHW.csv,lung  F  NHW.csv,F,lung,non-Hispanic White,50,29
+15,ex15_M_lung_NHW.csv,lung  M  NHW.csv,M,lung,non-Hispanic White,50,29
+16,ex16_F_melanoma_NHW.csv,melanoma  F  NHW.csv,F,melanoma,non-Hispanic White,50,29
