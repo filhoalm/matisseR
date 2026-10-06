@@ -1,0 +1,5 @@
+.Rproj.user
+.Rhistory
+.RData
+validation/matisse/*.csv
+!validation/matisse/README.md
