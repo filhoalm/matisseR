@@ -7,15 +7,15 @@
 apc_fit(R, method = c("wls", "poisson"), overdispersion = TRUE)
 }
 \arguments{
-\item{R}{rates object without zero events (see [rates_fill()]).}
+\item{R}{rates object without zero events (see \code{\link[=rates_fill]{rates_fill()}}).}
 
 \item{method}{"wls" or "poisson".}
 
 \item{overdispersion}{scale the covariance by the dispersion.}
 }
 \value{
-list with the design `G`, coefficients `B`, covariance `V`, dispersion `s2`, deviance `DEV`
-  and `net_drift` (\% per year).
+list with the design \code{G}, coefficients \code{B}, covariance \code{V}, dispersion \code{s2}, deviance \code{DEV}
+and \code{net_drift} (\% per year).
 }
 \description{
 Weighted least squares on log rates (MATISSE default) or Poisson regression. With overdispersion,

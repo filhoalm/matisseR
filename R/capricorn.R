@@ -19,7 +19,7 @@ cap_blocks <- function(G) list(1, 2, 3, 4, 5, 6, G$pa, G$pp, G$pc)
 
 #' Coefficient maps of a comparative model
 #'
-#' `E` (equal across strata) and `F` (free) maps, M x k: `X \%*\% E` are the shared columns. Models
+#' `E` (equal across strata) and `F` (free) maps, M x k: `X %*% E` are the shared columns. Models
 #' `PHL`, `PHT`, `PHX`, `PHA`, `NPH`; single blocks (`LAT`, `NetDrift`, `QuadAge`, `QuadPer`, `QuadCoh`,
 #' `HiOrdAge`, `HiOrdPer`, `HiOrdCoh`, `CAT`) make one block equal, for the homogeneity tests.
 #'
@@ -114,7 +114,7 @@ capricorn <- function(Rs, overdispersion = FALSE) {
 #' Estimable functions of a comparative analysis (MATISSE capricorn/EF.m)
 #'
 #' Estimable functions by stratum, and contrasts of each stratum vs the last: rate ratios, or for
-#' local drifts the ratio of annual changes as \% per year.
+#' local drifts the ratio of annual changes as % per year.
 #'
 #' @param S result of [capricorn()].
 #' @param comp estimable function (see [apc_ef()]).

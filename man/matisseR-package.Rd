@@ -7,14 +7,15 @@
 \title{matisseR: age-period-cohort analysis of vital rates, ported from MATISSE}
 \description{
 An R port of methods in the MATISSE MATLAB toolbox (Philip S. Rosenberg, US National Cancer
-Institute): Lexis diagrams of rates (`rates_*`, [csv2rates()], [rates_i5()]), the New
-Age-Period-Cohort Model and its estimable functions ([apc_fit()], [apc_ef()]) and hypothesis-based
-comparative APC analysis ([capricorn()], [cap_ef()]). The MATISSE example datasets are included
-([matisse_example()]).
+Institute): Lexis diagrams of rates (\verb{rates_*}, \code{\link[=csv2rates]{csv2rates()}}, \code{\link[=rates_i5]{rates_i5()}}), the New
+Age-Period-Cohort Model and its estimable functions (\code{\link[=apc_fit]{apc_fit()}}, \code{\link[=apc_ef]{apc_ef()}}) and hypothesis-based
+comparative APC analysis (\code{\link[=capricorn]{capricorn()}}, \code{\link[=cap_ef]{cap_ef()}}); also social-generation summaries of fitted
+cohort patterns (\code{\link[=apc_fcp]{apc_fcp()}}, \code{\link[=fcp_contrast]{fcp_contrast()}}, \code{\link[=ld_onset]{ld_onset()}}, \code{\link[=pool_rr]{pool_rr()}}). The MATISSE example
+datasets are included (\code{\link[=matisse_example]{matisse_example()}}).
 }
 \references{
 Miranda Filho A, Rosenberg PS. Advances in statistical methods for cancer surveillance
-  research: an age-period-cohort perspective. Front Oncol 2024;13:1332429. doi:10.3389/fonc.2023.1332429
+research: an age-period-cohort perspective. Front Oncol 2024;13:1332429. doi:10.3389/fonc.2023.1332429
 }
 \seealso{
 Useful links:

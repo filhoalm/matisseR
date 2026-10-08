@@ -7,12 +7,12 @@
 apc_ref(M, ref = NULL)
 }
 \arguments{
-\item{M}{fitted model (or `list(G = design)`).}
+\item{M}{fitted model (or \code{list(G = design)}).}
 
-\item{ref}{`NULL` (defaults) or c(age, period, cohort) midpoints.}
+\item{ref}{\code{NULL} (defaults) or c(age, period, cohort) midpoints.}
 }
 \value{
-integer indices `a`, `p`, `c`.
+integer indices \code{a}, \code{p}, \code{c}.
 }
 \description{
 MATISSE defaults are the central age group and period, and the cohort through them.

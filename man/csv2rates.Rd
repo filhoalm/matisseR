@@ -10,10 +10,10 @@ csv2rates(file)
 \item{file}{path to the CSV file.}
 }
 \value{
-a rates object (see [rates_make()]).
+a rates object (see \code{\link[=rates_make]{rates_make()}}).
 }
 \description{
-Reads the NCI Age Period Cohort Web Tool format used by MATISSE: header lines (`Title:`,
-`Description:`, `Start Year:`, `Start Age:`, `Interval (Years):` or `Age Bin (Years):` and
-`Period Bin (Years):`), then one row per age group with paired events and offset columns per period.
+Reads the NCI Age Period Cohort Web Tool format used by MATISSE: header lines (\verb{Title:},
+\verb{Description:}, \verb{Start Year:}, \verb{Start Age:}, \verb{Interval (Years):} or \verb{Age Bin (Years):} and
+\verb{Period Bin (Years):}), then one row per age group with paired events and offset columns per period.
 }

@@ -7,13 +7,13 @@
 cap_fit(G, Y, O, K, m, eta0 = NULL)
 }
 \arguments{
-\item{G}{design ([apc_design()]).}
+\item{G}{design (\code{\link[=apc_design]{apc_design()}}).}
 
 \item{Y, O}{stacked events and offsets (one Lexis diagram per stratum, cells ordered age fastest).}
 
 \item{K}{number of strata.}
 
-\item{m}{coefficient map ([cap_map()]).}
+\item{m}{coefficient map (\code{\link[=cap_map]{cap_map()}}).}
 
 \item{eta0}{starting linear predictor (the NPH fit).}
 }

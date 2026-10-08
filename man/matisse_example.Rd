@@ -7,13 +7,13 @@
 matisse_example(i = NULL)
 }
 \arguments{
-\item{i}{example number(s), 1-16; `NULL` returns the index table.}
+\item{i}{example number(s), 1-16; \code{NULL} returns the index table.}
 }
 \value{
 a rates object, a list of rates objects, or the index (data.table).
 }
 \description{
-The 16 example Lexis diagrams shipped with the MATISSE toolbox (`ratesdata.m`): SEER incidence,
+The 16 example Lexis diagrams shipped with the MATISSE toolbox (\code{ratesdata.m}): SEER incidence,
 single years of age 35-84 by single calendar years from 1992 (27 or 29 years).
 }
 \examples{

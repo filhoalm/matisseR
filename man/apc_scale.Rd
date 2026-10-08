@@ -2,7 +2,7 @@
 % Please edit documentation in R/apc.R
 \name{apc_scale}
 \alias{apc_scale}
-\title{Scale of an estimable function: log scale to rate per `per` (basic EFs) or annual \% change (ld)}
+\title{Scale of an estimable function: log scale to rate per \code{per} (basic EFs) or annual \% change (ld)}
 \usage{
 apc_scale(comp, per = 1e+05)
 }
@@ -15,5 +15,5 @@ apc_scale(comp, per = 1e+05)
 a function.
 }
 \description{
-Scale of an estimable function: log scale to rate per `per` (basic EFs) or annual \% change (ld)
+Scale of an estimable function: log scale to rate per \code{per} (basic EFs) or annual \% change (ld)
 }

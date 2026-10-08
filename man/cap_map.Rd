@@ -7,12 +7,12 @@
 cap_map(G, model)
 }
 \arguments{
-\item{G}{design ([apc_design()]).}
+\item{G}{design (\code{\link[=apc_design]{apc_design()}}).}
 
 \item{model}{model or block name.}
 }
 \description{
-`E` (equal across strata) and `F` (free) maps, M x k: `X \%*\% E` are the shared columns. Models
-`PHL`, `PHT`, `PHX`, `PHA`, `NPH`; single blocks (`LAT`, `NetDrift`, `QuadAge`, `QuadPer`, `QuadCoh`,
-`HiOrdAge`, `HiOrdPer`, `HiOrdCoh`, `CAT`) make one block equal, for the homogeneity tests.
+\code{E} (equal across strata) and \code{F} (free) maps, M x k: \code{X \%*\% E} are the shared columns. Models
+\code{PHL}, \code{PHT}, \code{PHX}, \code{PHA}, \code{NPH}; single blocks (\code{LAT}, \code{NetDrift}, \code{QuadAge}, \code{QuadPer}, \code{QuadCoh},
+\code{HiOrdAge}, \code{HiOrdPer}, \code{HiOrdCoh}, \code{CAT}) make one block equal, for the homogeneity tests.
 }

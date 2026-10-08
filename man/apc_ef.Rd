@@ -13,24 +13,26 @@ apc_ef(
 )
 }
 \arguments{
-\item{M}{fitted model ([apc_fit()]).}
+\item{M}{fitted model (\code{\link[=apc_fit]{apc_fit()}}).}
 
 \item{comp}{estimable function.}
 
-\item{ref}{reference values (see [apc_ref()]).}
+\item{ref}{reference values (see \code{\link[=apc_ref]{apc_ref()}}).}
 
 \item{alpha}{1 - confidence level.}
 
 \item{per}{rate multiplier.}
 }
 \value{
-data.table: `ef`, `ref`, `x` (age, period or cohort midpoint), `value`, `lo`, `hi`.
+data.table: \code{ef}, \code{ref}, \code{x} (age, period or cohort midpoint), \code{value}, \code{lo}, \code{hi}.
 }
 \description{
 With delta-method confidence intervals:
-* `lac` longitudinal age curve: rates by age in the reference cohort, period deviations removed;
-* `cac` cross-sectional age curve: rates by age in the reference period, cohort deviations removed;
-* `ftt` fitted temporal trends: rates by period at the reference age;
-* `fcp` fitted cohort pattern: rates by cohort at the reference age;
-* `ld` local drifts: annual \% change by age (net drift plus the slope of the cohort deviations).
+\itemize{
+\item \code{lac} longitudinal age curve: rates by age in the reference cohort, period deviations removed;
+\item \code{cac} cross-sectional age curve: rates by age in the reference period, cohort deviations removed;
+\item \code{ftt} fitted temporal trends: rates by period at the reference age;
+\item \code{fcp} fitted cohort pattern: rates by cohort at the reference age;
+\item \code{ld} local drifts: annual \% change by age (net drift plus the slope of the cohort deviations).
+}
 }

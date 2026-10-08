@@ -11,6 +11,9 @@ by Philip S. Rosenberg (US National Cancer Institute), described in Miranda Filh
 - **CAPRICORN**, hypothesis-based comparative APC analysis: joint fits of K Lexis diagrams, proportional
   models PH-L, PH-T, PH-X, PH-A vs NPH, global, homogeneity and composite tests, AICc, estimable functions
   and rate ratios by stratum.
+- **Social generations** (beyond MATISSE): fitted cohort pattern at any reference age, mean rates and rate
+  ratios between generations and versus proxy parents, sites combined, early- vs late-onset local drifts,
+  random-effects pooling of rate ratios across strata.
 
 The 16 MATISSE example datasets (SEER incidence, single years of age 35-84 from 1992) are included.
 
@@ -36,13 +39,20 @@ apc_ef(M, "ld")                                    # local drifts by age, with 9
 apc_efs(M)                                         # LAC, CAC, FTT, FCP and LD
 
 R5 <- rates_chunk(matisse_example(16), 5, 5)       # 5 x 5 cells, most recent periods kept
-R1 <- rates_i5(R5 |> rates_chunk(1, 1), "cubic")   # single-year ages from 5-year groups
+A5 <- rates_chunk(matisse_example(16), age_block = 5)   # 5-year age groups by single years
+R1 <- rates_i5(A5, "cubic")                        # back to single-year ages (1 x 1 cells)
 
 Rs <- lapply(matisse_example(9:10), rates_fill)    # thyroid, male: NHB vs NHW
 names(Rs) <- c("NHB", "NHW")
 S <- capricorn(Rs)                                 # add overdispersion = TRUE for quasi-Poisson tests
 S$tests$global; S$aic
 cap_ef(S, "fcp")                                   # fitted cohort patterns and their ratio
+
+M5 <- apc_fit(rates_fill(R5))                      # social generations, 5 x 5
+f  <- apc_fcp(M5, age = 60)                        # fitted cohort pattern at age 60
+fcp_generations(f)$table                           # mean rate by generation
+fcp_contrast(f)                                    # Silent vs Greatest, Boomers vs Silent, ..., vs proxy parents
+ld_onset(M5, cut = 50)                             # local drifts, early vs late onset
 ```
 
 ## Functions and their MATISSE sources
@@ -61,6 +71,9 @@ cap_ef(S, "fcp")                                   # fitted cohort patterns and 
 | `apc_ef`, `apc_efs`, `apc_contrast`, `apc_ref` | `utilities/macaroons.m` | estimable functions, reference cells |
 | `capricorn`, `cap_map`, `cap_fit` | `@capricorn/private/CAPRICORN.m` | comparative APC, tests, AICc |
 | `cap_ef` | `@capricorn/private/EF.m` | estimable functions by stratum and contrasts |
+
+Beyond MATISSE (social generations, *JAMA Netw Open* 2024): `apc_fcp`, `apc_ef_vcov`, `social_generations`,
+`generation_contrasts`, `fcp_generations`, `fcp_contrast`, `fcp_sum`, `ld_onset`, `pool_rr`.
 
 Differences from MATISSE: covariances are computed by QR on unit-scaled columns (stable at 1 x 1
 resolution; same values), CAPRICORN fits start from the NPH fit, and `capricorn(overdispersion = TRUE)`
@@ -84,6 +97,8 @@ adds quasi-Poisson tests and QAICc (MATISSE uses Poisson tests).
 - Miranda Filho A, Rosenberg PS. Advances in statistical methods for cancer surveillance research: an
   age-period-cohort perspective. *Front Oncol* 2024;13:1332429. doi:10.3389/fonc.2023.1332429
 - Comparative APC (CAPRICORN): Rosenberg PS et al., *BMC Med Res Methodol* 2023 (PMID 37853346).
+- Social generations: Rosenberg PS, Miranda Filho A, *JAMA Netw Open* 2024
+  ([doi:10.1001/jamanetworkopen.2024.15731](https://doi.org/10.1001/jamanetworkopen.2024.15731)).
 - Rosenberg PS, Check DP, Anderson WF. A web tool for age-period-cohort analysis of cancer incidence and
   mortality rates. *Cancer Epidemiol Biomarkers Prev* 2014;23:2296-302.
 

@@ -7,7 +7,7 @@
 cap_blocks(G)
 }
 \arguments{
-\item{G}{design ([apc_design()]).}
+\item{G}{design (\code{\link[=apc_design]{apc_design()}}).}
 }
 \description{
 1 intercept, 2 LAT, 3 net drift, 4-6 quadratic age/period/cohort, 7-9 higher-order age/period/cohort deviations.

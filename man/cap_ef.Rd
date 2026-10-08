@@ -14,20 +14,20 @@ cap_ef(
 )
 }
 \arguments{
-\item{S}{result of [capricorn()].}
+\item{S}{result of \code{\link[=capricorn]{capricorn()}}.}
 
-\item{comp}{estimable function (see [apc_ef()]).}
+\item{comp}{estimable function (see \code{\link[=apc_ef]{apc_ef()}}).}
 
-\item{model}{`NPH`, `PHL`, `PHT`, `PHX` or `PHA`.}
+\item{model}{\code{NPH}, \code{PHL}, \code{PHT}, \code{PHX} or \code{PHA}.}
 
-\item{ref}{reference values (see [apc_ref()]).}
+\item{ref}{reference values (see \code{\link[=apc_ref]{apc_ref()}}).}
 
 \item{alpha}{1 - confidence level.}
 
 \item{per}{rate multiplier.}
 }
 \value{
-data.table: `model`, `ef`, `stratum`, `type` (`ef` or `ratio`), `ref`, `x`, `value`, `lo`, `hi`.
+data.table: \code{model}, \code{ef}, \code{stratum}, \code{type} (\code{ef} or \code{ratio}), \code{ref}, \code{x}, \code{value}, \code{lo}, \code{hi}.
 }
 \description{
 Estimable functions by stratum, and contrasts of each stratum vs the last: rate ratios, or for
