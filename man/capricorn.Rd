@@ -9,11 +9,11 @@ capricorn(Rs, overdispersion = FALSE)
 \arguments{
 \item{Rs}{named list of rates objects (zero events filled); the last stratum is the reference.}
 
-\item{overdispersion}{`FALSE` as in MATISSE (Poisson tests); `TRUE` divides deviances by the NPH
+\item{overdispersion}{\code{FALSE} as in MATISSE (Poisson tests); \code{TRUE} divides deviances by the NPH
 dispersion max(1, deviance / df) (quasi-Poisson tests, QAICc) and scales the EF covariances.}
 }
 \value{
-list with the design, fits, `tests` (`global`, `homogeneity`, `composite`), `aic` and `best` model.
+list with the design, fits, \code{tests} (\code{global}, \code{homogeneity}, \code{composite}), \code{aic} and \code{best} model.
 }
 \description{
 Fits the PH-L, PH-T, PH-X, PH-A and NPH models jointly to K rates objects over the same Lexis

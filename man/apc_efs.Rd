@@ -7,13 +7,13 @@
 apc_efs(M, comp = c("lac", "cac", "ftt", "fcp", "ld"), ref = NULL, ...)
 }
 \arguments{
-\item{M}{fitted model ([apc_fit()]).}
+\item{M}{fitted model (\code{\link[=apc_fit]{apc_fit()}}).}
 
 \item{comp}{estimable function.}
 
-\item{ref}{reference values (see [apc_ref()]).}
+\item{ref}{reference values (see \code{\link[=apc_ref]{apc_ref()}}).}
 
-\item{...}{passed to [apc_ef()].}
+\item{...}{passed to \code{\link[=apc_ef]{apc_ef()}}.}
 }
 \description{
 Several estimable functions, long format

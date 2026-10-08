@@ -10,7 +10,7 @@ rates_fill(R)
 \item{R}{rates object.}
 }
 \value{
-rates object with `n_filled` and `fill_value`.
+rates object with \code{n_filled} and \code{fill_value}.
 }
 \description{
 Replaces zero/missing event counts by MATISSE's adaptive tiny value (>= 0.5), needed before

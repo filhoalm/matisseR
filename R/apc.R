@@ -44,7 +44,7 @@ apc_design <- function(R) {
 #' @param method "wls" or "poisson".
 #' @param overdispersion scale the covariance by the dispersion.
 #' @return list with the design `G`, coefficients `B`, covariance `V`, dispersion `s2`, deviance `DEV`
-#'   and `net_drift` (\% per year).
+#'   and `net_drift` (% per year).
 #' @examples
 #' M <- apc_fit(rates_fill(matisse_example(16)))
 #' M$net_drift
@@ -92,7 +92,7 @@ apc_ref <- function(M, ref = NULL) {
 #' * `cac` cross-sectional age curve: rates by age in the reference period, cohort deviations removed;
 #' * `ftt` fitted temporal trends: rates by period at the reference age;
 #' * `fcp` fitted cohort pattern: rates by cohort at the reference age;
-#' * `ld` local drifts: annual \% change by age (net drift plus the slope of the cohort deviations).
+#' * `ld` local drifts: annual % change by age (net drift plus the slope of the cohort deviations).
 #'
 #' @param M fitted model ([apc_fit()]).
 #' @param comp estimable function.
@@ -118,7 +118,7 @@ apc_ef <- function(M, comp = c("lac", "cac", "ftt", "fcp", "ld"), ref = NULL, al
 apc_efs <- function(M, comp = c("lac", "cac", "ftt", "fcp", "ld"), ref = NULL, ...)
   rbindlist(lapply(comp, apc_ef, M = M, ref = ref, ...))
 
-#' Scale of an estimable function: log scale to rate per `per` (basic EFs) or annual \% change (ld)
+#' Scale of an estimable function: log scale to rate per `per` (basic EFs) or annual % change (ld)
 #'
 #' @param comp estimable function.
 #' @param per rate multiplier.
@@ -128,7 +128,7 @@ apc_scale <- function(comp, per = 1e5) if (comp == "ld") function(v) 100 * (exp(
 
 #' Contrast of one estimable function
 #'
-#' EF = X \%*\% B\[i\] on the log scale, at reference cells `r`.
+#' EF = X %*% B\[i\] on the log scale, at reference cells `r`.
 #'
 #' @param G design ([apc_design()]).
 #' @param comp estimable function.

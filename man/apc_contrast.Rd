@@ -7,15 +7,15 @@
 apc_contrast(G, comp, r)
 }
 \arguments{
-\item{G}{design ([apc_design()]).}
+\item{G}{design (\code{\link[=apc_design]{apc_design()}}).}
 
 \item{comp}{estimable function.}
 
-\item{r}{reference indices ([apc_ref()]).}
+\item{r}{reference indices (\code{\link[=apc_ref]{apc_ref()}}).}
 }
 \value{
-list with `x`, `ref`, coefficient indices `i` and contrast matrix `X`.
+list with \code{x}, \code{ref}, coefficient indices \code{i} and contrast matrix \code{X}.
 }
 \description{
-EF = X \%*\% B\[i\] on the log scale, at reference cells `r`.
+EF = X \%*\% B[i] on the log scale, at reference cells \code{r}.
 }

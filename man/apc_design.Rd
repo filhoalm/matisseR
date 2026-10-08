@@ -10,8 +10,8 @@ apc_design(R)
 \item{R}{rates object with square cells, at least 3 ages and 3 periods.}
 }
 \value{
-list with design `X` (cells ordered age fastest, as `c(R$Events)`), dimensions, midpoints,
-  block pointers (`pa`, `pp`, `pc`) and edge-cell pointers (`inc_a`, `inc_p`, `inc_c`).
+list with design \code{X} (cells ordered age fastest, as \code{c(R$Events)}), dimensions, midpoints,
+block pointers (\code{pa}, \code{pp}, \code{pc}) and edge-cell pointers (\code{inc_a}, \code{inc_p}, \code{inc_c}).
 }
 \description{
 Columns: intercept, linear age and cohort, quadratic age/period/cohort, then higher-order

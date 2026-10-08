@@ -3,8 +3,9 @@
 #' An R port of methods in the MATISSE MATLAB toolbox (Philip S. Rosenberg, US National Cancer
 #' Institute): Lexis diagrams of rates (`rates_*`, [csv2rates()], [rates_i5()]), the New
 #' Age-Period-Cohort Model and its estimable functions ([apc_fit()], [apc_ef()]) and hypothesis-based
-#' comparative APC analysis ([capricorn()], [cap_ef()]). The MATISSE example datasets are included
-#' ([matisse_example()]).
+#' comparative APC analysis ([capricorn()], [cap_ef()]); also social-generation summaries of fitted
+#' cohort patterns ([apc_fcp()], [fcp_contrast()], [ld_onset()], [pool_rr()]). The MATISSE example
+#' datasets are included ([matisse_example()]).
 #'
 #' @references Miranda Filho A, Rosenberg PS. Advances in statistical methods for cancer surveillance
 #'   research: an age-period-cohort perspective. Front Oncol 2024;13:1332429. doi:10.3389/fonc.2023.1332429

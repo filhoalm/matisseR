@@ -7,15 +7,15 @@
 rates_make(dt, age_groups, fullname = "", event_label = "Cases")
 }
 \arguments{
-\item{dt}{data.table with `age` (5-year group index 1-18: 1 = 0-4, ..., 18 = 85+), `year`, `cases`, `py`.}
+\item{dt}{data.table with \code{age} (5-year group index 1-18: 1 = 0-4, ..., 18 = 85+), \code{year}, \code{cases}, \code{py}.}
 
 \item{age_groups}{age group indices to keep (consecutive).}
 
 \item{fullname, event_label}{labels.}
 }
 \value{
-list with `Events`, `Offset` (age x year matrices), `ages` and `periods` (cutpoints, length A + 1 and P + 1),
-  `fullname`, `event_label`.
+list with \code{Events}, \code{Offset} (age x year matrices), \code{ages} and \code{periods} (cutpoints, length A + 1 and P + 1),
+\code{fullname}, \code{event_label}.
 }
 \description{
 Builds a MATISSE-style rates object from one row per age group and year.
