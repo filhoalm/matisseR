@@ -74,8 +74,8 @@ cap_fit <- function(G, Y, O, K, m, eta0 = NULL) {
 #' @return list with the design, fits, `tests` (`global`, `homogeneity`, `composite`), `aic` and `best` model.
 #' @examples
 #' \donttest{
-#' Rs <- lapply(matisse_example(9:10), rates_fill)   # thyroid, male, NHB vs NHW
-#' names(Rs) <- c("NHB", "NHW")
+#' Rs <- lapply(matisse_example(c(2, 1)), rates_fill)   # synthetic melanoma-like, populations B and A
+#' names(Rs) <- c("B", "A")
 #' S <- capricorn(Rs)
 #' S$aic
 #' }

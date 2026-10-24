@@ -1,4 +1,4 @@
-## matisseR outputs for the MATISSE examples, in the layout written by validate_matisse.m (MATLAB),
+## matisseR outputs for the synthetic examples, in the layout written by validate_matisse.m (MATLAB),
 ## on MATISSE's scale (log rates per 100,000; local drifts and contrasts as log differences).
 ## Usage (package root): Rscript validation/validate_r.R   -> validation/r/*.csv ; then Rscript validation/compare.R
 
@@ -7,9 +7,9 @@ out <- file.path("validation", "r"); dir.create(out, showWarnings = FALSE, recur
 comps <- c("lac", "cac", "ftt", "fcp", "ld")
 mlog <- function(ef, v) suppressWarnings(fifelse(rep_len(ef == "ld", length(v)), log1p(v / 100), log(v)))   # MATISSE: lot + X * B (lot = log(1e5); 0 for ld)
 
-## APC (WLS, overdispersion) on the 16 examples at 1 x 1, zero cells filled: estimable functions and key parameters
+## APC (WLS, overdispersion) on the 8 examples at 1 x 1, zero cells filled: estimable functions and key parameters
 efs <- list(); key <- list()
-for (i in 1:16) {
+for (i in matisse_example()$number) {
   M <- apc_fit(rates_fill(matisse_example(i)))
   e <- apc_efs(M)[, k := seq_len(.N), by = ef]
   efs[[i]] <- e[, .(example = i, comp = match(ef, comps), k, value = mlog(ef, value))]
@@ -18,8 +18,8 @@ for (i in 1:16) {
 fwrite(rbindlist(efs), file.path(out, "apc_ef.csv"), col.names = FALSE)
 fwrite(rbindlist(key), file.path(out, "apc_key.csv"), col.names = FALSE)
 
-## CAPRICORN: thyroid NHB vs NHW and ER+ breast NHB vs NHW (1 x 1), thyroid API/HIS/NHB/NHW (5 x 5)
-cmp <- list(list(ex = 9:10, d = 1), list(ex = 1:2, d = 1), list(ex = 7:10, d = 5))
+## CAPRICORN: populations B vs A and C vs A (1 x 1), B, C, D vs A (5 x 5); the reference A is the last stratum
+cmp <- list(list(ex = c(2, 1), d = 1), list(ex = c(3, 1), d = 1), list(ex = c(2, 3, 4, 1), d = 5))
 hom_order <- c("CAT", "HiOrdCoh", "QuadCoh", "NetDrift", "HiOrdPer", "QuadPer", "LAT", "HiOrdAge", "QuadAge")   # MATISSE row order
 tab <- list(global = list(), homogeneity = list(), composite = list(), aic = list(), ef = list())
 for (j in seq_along(cmp)) {

@@ -1,8 +1,9 @@
 # Validation against MATISSE (MATLAB)
 
-Same inputs on both sides: the 16 MATISSE example datasets (1 x 1), zero cells filled, New APC Model by
-WLS with overdispersion (MATISSE defaults), and CAPRICORN on filled rates for three comparisons:
-thyroid NHB vs NHW and ER+ breast NHB vs NHW (1 x 1), thyroid API/HIS/NHB/NHW (chunked to 5 x 5).
+Same inputs on both sides: the 8 synthetic example datasets of matisseR (`inst/extdata`, 1 x 1; MATLAB reads
+them with MATISSE's `csv2rates`), zero cells filled, New APC Model by WLS with overdispersion (MATISSE defaults),
+and CAPRICORN on filled rates for three comparisons: populations B vs A and C vs A (1 x 1), and B, C, D vs A
+(chunked to 5 x 5).
 
 | Quantity | File |
 |---|---|

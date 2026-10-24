@@ -22,6 +22,6 @@ Weighted least squares on log rates (MATISSE default) or Poisson regression. Wit
 the covariance is scaled by max(1, deviance / df).
 }
 \examples{
-M <- apc_fit(rates_fill(matisse_example(16)))
+M <- apc_fit(rates_fill(matisse_example(1)))
 M$net_drift
 }

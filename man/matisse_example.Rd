@@ -2,21 +2,35 @@
 % Please edit documentation in R/rates.R
 \name{matisse_example}
 \alias{matisse_example}
-\title{MATISSE example datasets}
+\title{Synthetic example datasets}
 \usage{
 matisse_example(i = NULL)
 }
 \arguments{
-\item{i}{example number(s), 1-16; \code{NULL} returns the index table.}
+\item{i}{example number(s), 1-8; \code{NULL} returns the index table.}
 }
 \value{
 a rates object, a list of rates objects, or the index (data.table).
 }
 \description{
-The 16 example Lexis diagrams shipped with the MATISSE toolbox (\code{ratesdata.m}): SEER incidence,
-single years of age 35-84 by single calendar years from 1992 (27 or 29 years).
+Eight synthetic Lexis diagrams, single years of age 35-84 by single calendar years 1991-2019, with Poisson
+counts drawn from known age-period-cohort surfaces shaped like common cancer patterns (\code{data-raw/make_examples.R}
+in the source repository). They are not registry data.
+\enumerate{
+\item melanoma-like, female, population A: the main example;
+\item as 1 in population B with a different period trend (vs 1: PH-X holds in \code{\link[=capricorn]{capricorn()}});
+\item as 1 x 1.3 in the small population C, with zero cells (vs 1: PH-A holds);
+\item as 1 in population D with a steeper cohort trend (vs 1: PH-L holds);
+\item breast-like and 6. lung-like, female, population A;
+\item all cancers, female, population A: 1 + 5 + 6 + other cancers, same person-years (for \code{\link[=rates_share]{rates_share()}});
+\item thyroid-like, male, population C: sparse, mostly zero cells.
+}
+}
+\details{
+The index gives the cases, the zero cells and the true net drift of each surface (\% per year, over 1991-2019 at
+1 x 1; \code{NA} for example 7, a sum of surfaces).
 }
 \examples{
 matisse_example()
-R <- matisse_example(16)   # melanoma, female, non-Hispanic white
+R <- matisse_example(1)   # melanoma-like, female, population A
 }

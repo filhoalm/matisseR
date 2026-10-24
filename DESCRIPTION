@@ -11,7 +11,7 @@ Description: Lexis diagrams of rates (rates objects, aggregation, zero filling a
     drifts), and hypothesis-based comparative age-period-cohort analysis (CAPRICORN), ported from the
     MATISSE MATLAB toolbox, and social-generation summaries of fitted cohort patterns (generation means
     and rate ratios, early- versus late-onset local drifts, random-effects pooling). Includes the
-    MATISSE example datasets and a validation suite.
+    synthetic example datasets and a validation suite.
 License: MIT + file LICENSE
 URL: https://github.com/filhoalm/matisseR
 BugReports: https://github.com/filhoalm/matisseR/issues

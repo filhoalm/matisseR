@@ -1,4 +1,4 @@
-M <- apc_fit(rates_fill(rates_chunk(matisse_example(16), 5, 5)))   # melanoma F NHW, 5 x 5
+M <- apc_fit(rates_fill(rates_chunk(matisse_example(1), 5, 5)))    # synthetic melanoma-like, female, A, 5 x 5
 
 test_that("apc_fcp equals apc_ef at an age midpoint and interpolates log-linearly between midpoints", {
   G <- M$G; a <- G$age[4]

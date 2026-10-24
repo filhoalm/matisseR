@@ -1,0 +1,9 @@
+number,file,site,sex,population,ages,periods,cases,zero_cells,net_drift,design
+1,syn01_melanoma_F_A.csv,melanoma,F,A,50,29,16339,0,1.860252,main example: rising cohort pattern
+2,syn02_melanoma_F_B.csv,melanoma,F,B,50,29,9905,4,3.089938,A with a different period trend (vs A: PH-X holds)
+3,syn03_melanoma_F_C.csv,melanoma,F,C,50,29,3203,178,1.860252,"A x 1.3 in a small population, zero cells (vs A: PH-A holds)"
+4,syn04_melanoma_F_D.csv,melanoma,F,D,50,29,9674,13,3.399672,A with a steeper cohort trend (vs A: PH-L holds)
+5,syn05_breast_F_A.csv,breast,F,A,50,29,113679,0,0.66273,population A: steady cohort increase
+6,syn06_lung_F_A.csv,lung,F,A,50,29,34885,9,0.317264,population A: cohort peak around 1948
+7,syn07_all_cancers_F_A.csv,all cancers,F,A,50,29,423369,0,,"population A: examples 1, 5 and 6 plus other cancers (same person-years)"
+8,syn08_thyroid_M_C.csv,thyroid,M,C,50,29,759,877,3.561971,"small population, mostly zero cells, rising period trend"

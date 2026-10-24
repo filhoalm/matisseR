@@ -10,7 +10,7 @@ An R port of methods in the MATISSE MATLAB toolbox (Philip S. Rosenberg, US Nati
 Institute): Lexis diagrams of rates (\verb{rates_*}, \code{\link[=csv2rates]{csv2rates()}}, \code{\link[=rates_i5]{rates_i5()}}), the New
 Age-Period-Cohort Model and its estimable functions (\code{\link[=apc_fit]{apc_fit()}}, \code{\link[=apc_ef]{apc_ef()}}) and hypothesis-based
 comparative APC analysis (\code{\link[=capricorn]{capricorn()}}, \code{\link[=cap_ef]{cap_ef()}}); also social-generation summaries of fitted
-cohort patterns (\code{\link[=apc_fcp]{apc_fcp()}}, \code{\link[=fcp_contrast]{fcp_contrast()}}, \code{\link[=ld_onset]{ld_onset()}}, \code{\link[=pool_rr]{pool_rr()}}). The MATISSE example
+cohort patterns (\code{\link[=apc_fcp]{apc_fcp()}}, \code{\link[=fcp_contrast]{fcp_contrast()}}, \code{\link[=ld_onset]{ld_onset()}}, \code{\link[=pool_rr]{pool_rr()}}). Synthetic example
 datasets are included (\code{\link[=matisse_example]{matisse_example()}}).
 }
 \references{

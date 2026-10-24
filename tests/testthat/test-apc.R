@@ -4,8 +4,8 @@
 cells <- function(R) rates_long(R)[order(per_lo, age_lo)]           # column-major, as c(R$Events)
 
 for (cell in c("1x1", "5x5")) test_that(paste("APC model and estimable functions,", cell), {
-  R <- rates_fill(matisse_example(16))
-  if (cell == "5x5") R <- rates_fill(rates_chunk(matisse_example(16), 5, 5))
+  R <- rates_fill(matisse_example(1))
+  if (cell == "5x5") R <- rates_fill(rates_chunk(matisse_example(1), 5, 5))
   L <- cells(R)
   for (m in c("wls", "poisson")) {
     M <- apc_fit(R, m); G <- M$G; u <- drop(G$X %*% M$B)
@@ -25,5 +25,14 @@ for (cell in c("1x1", "5x5")) test_that(paste("APC model and estimable functions
     sl <- sapply(seq_len(G$A), function(j) coef(lm(u[seq(j, G$A * G$P, G$A)] ~ G$per))[2])
     expect_equal(E[ef == "ld", value], unname(100 * (exp(sl) - 1)), tolerance = 1e-8)
     expect_equal(unname(M$net_drift), 100 * (exp(M$B[[3]]) - 1))
+  }
+})
+
+test_that("Poisson fits recover the true net drift of the synthetic surfaces (1 x 1, few zero cells)", {
+  idx <- matisse_example()
+  for (k in idx[!is.na(net_drift) & zero_cells < 200, number]) {
+    M <- apc_fit(rates_fill(matisse_example(k)), "poisson")
+    se <- 100 * exp(M$B[[3]]) * sqrt(M$V[3, 3])
+    expect_lt(abs(M$net_drift - idx$net_drift[k]) / se, 3)
   }
 })

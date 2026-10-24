@@ -46,7 +46,7 @@ apc_design <- function(R) {
 #' @return list with the design `G`, coefficients `B`, covariance `V`, dispersion `s2`, deviance `DEV`
 #'   and `net_drift` (% per year).
 #' @examples
-#' M <- apc_fit(rates_fill(matisse_example(16)))
+#' M <- apc_fit(rates_fill(matisse_example(1)))
 #' M$net_drift
 #' @export
 apc_fit <- function(R, method = c("wls", "poisson"), overdispersion = TRUE) {

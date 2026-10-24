@@ -21,8 +21,8 @@ diagram; global, homogeneity and composite (Bonferroni) likelihood-ratio tests a
 }
 \examples{
 \donttest{
-Rs <- lapply(matisse_example(9:10), rates_fill)   # thyroid, male, NHB vs NHW
-names(Rs) <- c("NHB", "NHW")
+Rs <- lapply(matisse_example(c(2, 1)), rates_fill)   # synthetic melanoma-like, populations B and A
+names(Rs) <- c("B", "A")
 S <- capricorn(Rs)
 S$aic
 }

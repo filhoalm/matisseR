@@ -15,7 +15,10 @@ by Philip S. Rosenberg (US National Cancer Institute), described in Miranda Filh
   ratios between generations and versus proxy parents, sites combined, early- vs late-onset local drifts,
   random-effects pooling of rate ratios across strata.
 
-The 16 MATISSE example datasets (SEER incidence, single years of age 35-84 from 1992) are included.
+Eight **synthetic** example datasets are included (`matisse_example()`): single years of age 35-84 by calendar
+years 1991-2019, with Poisson counts drawn from known age-period-cohort surfaces shaped like common cancer patterns
+([data-raw/make_examples.R](data-raw/make_examples.R)). They are not registry data. For your own data, read an NCI
+APC Web Tool CSV with `csv2rates()` or build a rates object from counts and person-years with `rates_make()`.
 
 ## Install
 
@@ -32,20 +35,20 @@ Dependencies: `data.table` (ggplot2, patchwork and scales for `lexis_plot`).
 library(matisseR)
 matisse_example()                                  # index of the example datasets
 
-R <- rates_fill(matisse_example(16))               # melanoma, female, non-Hispanic White, 1 x 1
+R <- rates_fill(matisse_example(1))                # synthetic melanoma-like, female, population A, 1 x 1
 M <- apc_fit(R)                                    # New APC Model, WLS (MATISSE default)
 M$net_drift                                        # % per year
 apc_ef(M, "ld")                                    # local drifts by age, with 95% CIs
 apc_efs(M)                                         # LAC, CAC, FTT, FCP and LD
 
-R5 <- rates_chunk(matisse_example(16), 5, 5)       # 5 x 5 cells, most recent periods kept
-A5 <- rates_chunk(matisse_example(16), age_block = 5)   # 5-year age groups by single years
+R5 <- rates_chunk(matisse_example(1), 5, 5)        # 5 x 5 cells, most recent periods kept
+A5 <- rates_chunk(matisse_example(1), age_block = 5)    # 5-year age groups by single years
 R1 <- rates_i5(A5, "cubic")                        # back to single-year ages (1 x 1 cells)
 
-Rs <- lapply(matisse_example(9:10), rates_fill)    # thyroid, male: NHB vs NHW
-names(Rs) <- c("NHB", "NHW")
+Rs <- lapply(matisse_example(c(2, 1)), rates_fill) # populations B and A (B differs in its period trend)
+names(Rs) <- c("B", "A")
 S <- capricorn(Rs)                                 # add overdispersion = TRUE for quasi-Poisson tests
-S$tests$global; S$aic
+S$tests$global; S$aic                              # PH-X fits best, as built in
 cap_ef(S, "fcp")                                   # fitted cohort patterns and their ratio
 
 M5 <- apc_fit(rates_fill(R5))                      # social generations, 5 x 5
@@ -60,7 +63,7 @@ ld_onset(M5, cut = 50)                             # local drifts, early vs late
 | R | MATISSE | |
 |---|---|---|
 | `csv2rates`, `rates2csv` | `utilities/csv2rates.m`, `@rates/private/RATES2CSV.m` | NCI APC Web Tool CSV |
-| `matisse_example` | `data/ratesdata.m` | example datasets 1-16 |
+| `matisse_example` | (`data/ratesdata.m`) | 8 synthetic example datasets (MATISSE ships SEER data instead) |
 | `rates_make`, `rates_long`, `rates_uni` | `@rates`, `VEC.m`, `UNI.m` | rates objects |
 | `rates_chunk` | `@rates/private/CHUNK.m` | larger cells, leftovers dropped from the start (LTF) |
 | `rates_fill` | `@rates/private/FILL.m` | zero cells, adaptive fill value (`'adp'`) |
@@ -81,15 +84,16 @@ adds quasi-Poisson tests and QAICc (MATISSE uses Poisson tests).
 
 ## Validation
 
-1. **Internal checks** (`tests/testthat`, run with `devtools::test()`), on the MATISSE examples at 1 x 1 and
+1. **Internal checks** (`tests/testthat`, run with `devtools::test()`), on the synthetic examples at 1 x 1 and
    5 x 5: CSV reading and round trip; `chunk`, `fill`, `pchip` and `i5` invariants (totals preserved);
+   Poisson fits recover the true net drift of each surface; AICc picks the PH model that holds by construction;
    the design spans the full APC model and WLS and Poisson fits equal age + period + cohort factor models;
    each estimable function equals the fitted rates along its reference line with the other deviations
    removed; local drifts equal the least-squares slope of fitted log rates over periods; CAPRICORN NPH
    equals separate APC fits, and each PH model equals the factor model with shared or stratum-specific
    age, period and cohort effects; stratum estimable functions and ratios match the single-model ones.
 2. **Against MATISSE (MATLAB)** ([validation/](validation)): `validate_r.R` and `validate_matisse.m` write
-   the same quantities for the 16 examples and three CAPRICORN comparisons; `compare.R` reports the
+   the same quantities for the 8 examples and three CAPRICORN comparisons; `compare.R` reports the
    differences. R results are in `validation/r/`; MATISSE results are pending (MATLAB needed).
 
 ## Citation
@@ -104,4 +108,4 @@ adds quasi-Poisson tests and QAICc (MATISSE uses Poisson tests).
 
 ## License
 
-MIT (code). The example datasets are redistributed from the MATISSE toolbox.
+MIT, including the synthetic example datasets.

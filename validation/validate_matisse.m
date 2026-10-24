@@ -5,17 +5,20 @@
 % Writes validation/matisse/*.csv (no headers, same layout as validate_r.R); then, in R, from the
 % package root: Rscript validation/compare.R
 %
-% Same inputs as the R side: MATISSE example rates (ratesdata, 1 x 1), zero cells filled (fill),
-% New APC Model by WLS (apc defaults), CAPRICORN on filled rates.
+% Same inputs as the R side: the matisseR synthetic examples (inst/extdata, read with csv2rates, 1 x 1),
+% zero cells filled (fill), New APC Model by WLS (apc defaults), CAPRICORN on filled rates.
 
 out = fullfile(pwd, 'matisse');
 if ~exist(out, 'dir'), mkdir(out); end
 comps = {'lac', 'cac', 'ftt', 'fcp', 'ld'};
+ext = fullfile(pwd, '..', 'inst', 'extdata');
+idx = readtable(fullfile(ext, 'examples.csv'), 'TextType', 'string');
+example = @(i) csv2rates(char(fullfile(ext, idx.file(idx.number == i))));
 
-%%% APC: estimable functions (log scale: lot + X * B) and key parameters, 16 examples
+%%% APC: estimable functions (log scale: lot + X * B) and key parameters, 8 examples
 EF = []; KEY = [];
-for i = 1:16
-    M = apc(fill(ratesdata(i)));
+for i = idx.number'
+    M = apc(fill(example(i)));
     for c = 1:numel(comps)
         F = ef(M, 'Comp', comps{c});
         v = F.data.data(:);
@@ -28,14 +31,14 @@ end
 writematrix(EF, fullfile(out, 'apc_ef.csv'));
 writematrix(KEY, fullfile(out, 'apc_key.csv'));
 
-%%% CAPRICORN: {example numbers, cell size}; 5 = chunk to 5 x 5 (LTF)
-cmp = {{[9 10], 1}, {[1 2], 1}, {7:10, 5}};
+%%% CAPRICORN: {example numbers, cell size}; 5 = chunk to 5 x 5 (LTF); the reference A (1) is the last stratum
+cmp = {{[2 1], 1}, {[3 1], 1}, {[2 3 4 1], 5}};
 G = []; H = []; C = []; A = []; E = [];
 for j = 1:numel(cmp)
     ex = cmp{j}{1}; d = cmp{j}{2};
     R = cell(1, numel(ex));
     for g = 1:numel(ex)
-        Rg = ratesdata(ex(g));
+        Rg = example(ex(g));
         if d > 1, Rg = chunk(Rg, 'AgeBlock', d, 'PerBlock', d); end
         R{g} = fill(Rg);
     end
