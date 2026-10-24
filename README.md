@@ -78,6 +78,13 @@ ld_onset(M5, cut = 50)                             # local drifts, early vs late
 Beyond MATISSE (social generations, *JAMA Netw Open* 2024): `apc_fcp`, `apc_ef_vcov`, `social_generations`,
 `generation_contrasts`, `fcp_generations`, `fcp_contrast`, `fcp_sum`, `ld_onset`, `pool_rr`.
 
+Beyond MATISSE (fitted cohort share of a cause among all deaths, direct and ratio estimators; cause deaths per
+all-cause death for `capricorn`): `fcp_share`, `rates_share`.
+
+Beyond MATISSE (cohort-axis lag of a target population behind a reference: 2-strata comparative fits over a grid
+of 1-year shifts of the reference, by default with the target cohort curvature = kappa x the reference's; best shift
+and approximate profile-deviance interval): `cap_shift`.
+
 Differences from MATISSE: covariances are computed by QR on unit-scaled columns (stable at 1 x 1
 resolution; same values), CAPRICORN fits start from the NPH fit, and `capricorn(overdispersion = TRUE)`
 adds quasi-Poisson tests and QAICc (MATISSE uses Poisson tests).
@@ -91,7 +98,13 @@ adds quasi-Poisson tests and QAICc (MATISSE uses Poisson tests).
    each estimable function equals the fitted rates along its reference line with the other deviations
    removed; local drifts equal the least-squares slope of fitted log rates over periods; CAPRICORN NPH
    equals separate APC fits, and each PH model equals the factor model with shared or stratum-specific
-   age, period and cohort effects; stratum estimable functions and ratios match the single-model ones.
+   age, period and cohort effects; stratum estimable functions and ratios match the single-model ones;
+   the fitted cohort share of all causes among all causes is exactly 1 (also with zero cells), the direct
+   share equals the FCP of `rates_share()`, the ratio share and its variance follow the delta method, the
+   warning ignores cohorts projected to the reference age, and `capricorn()` on shares (NPH) equals separate
+   Poisson fits; `cap_shift()` finds lag 0 for a target equal to the reference and +10 for a copy shifted by 10
+   years (each model) and recovers lag 10 and kappa 0.6 for a target with 0.6 x the reference's cohort curvature,
+   its profile deviances equal the factor models, and its interval follows the profile rule.
 2. **Against MATISSE (MATLAB)** ([validation/](validation)): `validate_r.R` and `validate_matisse.m` write
    the same quantities for the 8 examples and three CAPRICORN comparisons; `compare.R` reports the
    differences. R results are in `validation/r/`; MATISSE results are pending (MATLAB needed).
