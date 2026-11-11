@@ -1,7 +1,7 @@
 Package: matisseR
 Type: Package
 Title: Age-Period-Cohort Analysis of Vital Rates: An R Port of the MATISSE Toolbox
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(
     person("Adalberto", "Miranda Filho", email = "mirandaa@iarc.who.int", role = c("aut", "cre")),
     person("Philip S.", "Rosenberg", role = "ctb", comment = "author of the MATISSE MATLAB toolbox and its methods"))
