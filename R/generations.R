@@ -133,7 +133,7 @@ fcp_contrast <- function(fcp, contrasts = generation_contrasts(), gens = social_
 #' Sum of fitted cohort patterns (sites combined)
 #'
 #' @param fcps list of results of [apc_fcp()] on the same cohorts (independent strata).
-#' @return FCP list: `x`, summed `f` and `V`.
+#' @return FCP list: `x`, summed `f` and `V`, and `age` and `status` (of the first FCP; same Lexis diagram).
 #' @export
 fcp_sum <- function(fcps) {
   stopifnot(all(vapply(fcps, function(z) identical(z$x, fcps[[1]]$x), TRUE)))

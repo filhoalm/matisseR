@@ -54,3 +54,13 @@ test_that("capricorn() takes cause deaths per all-cause death directly", {
   for (g in names(Rs)) expect_equal(e[stratum == g, value], apc_ef(apc_fit(Rs[[g]], "poisson"), "fcp", per = 1)$value, tolerance = 1e-6)
   expect_equal(e[type == "ratio", value], e[stratum == "melanoma", value] / e[stratum == "lung", value], tolerance = 1e-8)
 })
+
+test_that("fcp_share uses the cohort status of apc_fcp for both estimators", {
+  ex <- lapply(matisse_example(c(1, 7)), rates_chunk, age_block = 5, per_block = 5)
+  s <- suppressWarnings(fcp_share(ex[[1]], ex[[2]], ref_age = 62.5))
+  st <- cohort_status(s$models$direct, 62.5)$status
+  expect_identical(s$fcp$direct$status, st)
+  expect_identical(s$fcp$ratio$status, st)
+  expect_equal(s$check$max_fcp_observed, vapply(s$fcp, function(f) max(f$f[st == "observed"]), 0, USE.NAMES = FALSE))
+  expect_silent(fcp_contrast(s$fcp$ratio, observed_only = TRUE, min_cohorts = 1))
+})

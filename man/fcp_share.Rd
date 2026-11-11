@@ -43,10 +43,10 @@ of the log share);
 \item \code{generations}: data.table \code{estimator}, \code{generation}, \code{n} (cohorts), \code{mean} share, \code{se}, \code{lo}, \code{hi} (CI on the
 log scale);
 \item \code{check}: data.table \code{estimator}, \code{max_cell} (largest fitted share in the Lexis cells; direct estimator only),
-\code{max_fcp_observed} (largest share in the cohort pattern among the cohorts with an observed cell at ages within
-5 years of \code{ref_age}, e.g. 45-49 or 50-54 for 50), \code{max_fcp_all} (all cohorts, including those projected to
-\code{ref_age}), \code{frac_half}, \code{n_filled} (cells without cause deaths, filled);
-\item \code{fcp}: FCP lists (\code{x}, \code{f}, \code{V}, \code{age}) by estimator, for \code{\link[=fcp_generations]{fcp_generations()}} and \code{\link[=fcp_contrast]{fcp_contrast()}};
+\code{max_fcp_observed} (largest share in the cohort pattern among the cohorts observed at \code{ref_age}, see
+\code{\link[=cohort_status]{cohort_status()}}; e.g. a cell at 45-49 or 50-54 for 50 with 5-year groups), \code{max_fcp_all} (all cohorts,
+including those projected to \code{ref_age}), \code{frac_half}, \code{n_filled} (cells without cause deaths, filled);
+\item \code{fcp}: FCP lists (\code{x}, \code{f}, \code{V}, \code{age}, \code{status}) by estimator, for \code{\link[=fcp_generations]{fcp_generations()}} and \code{\link[=fcp_contrast]{fcp_contrast()}};
 \item \code{models}: the fits (\code{direct}; \code{cause} and \code{all} for the ratio).
 }
 }
@@ -62,8 +62,9 @@ With overdispersion (the default; deviance / df is usually well above 1 for deat
 max(1, deviance / df) absorbs this factor and the intervals are roughly calibrated: in simulations on Danish
 female cancer deaths with extra-binomial variation they were, if anything, slightly too narrow. A log-linear model
 of a proportion is adequate only well below 1. A warning is given if a fitted share exceeds \code{warn_above} in the
-Lexis cells (\code{max_cell}) or in the cohort pattern of a cohort observed within 5 years of \code{ref_age}
-(\code{max_fcp_observed}); cohorts projected to \code{ref_age} (\code{max_fcp_all}) can exceed it, or 1, without a warning, and
+Lexis cells (\code{max_cell}) or in the cohort pattern of a cohort observed at \code{ref_age} (\code{\link[=cohort_status]{cohort_status()}}: a cell
+in an age group used for the interpolation at \code{ref_age}) (\code{max_fcp_observed}); cohorts projected to \code{ref_age}
+(\code{max_fcp_all}) can exceed it, or 1, without a warning, and
 generation means built on them should be read with care. \code{frac_half} is the fraction of cells whose observed
 share exceeds 0.5.
 \item \code{ratio} (secondary check): FCP of the cause over FCP of all causes at \code{ref_age}, from two rate models (deaths per

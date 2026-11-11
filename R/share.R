@@ -36,8 +36,9 @@ rates_share <- function(R_cause, R_all) {
 #'   max(1, deviance / df) absorbs this factor and the intervals are roughly calibrated: in simulations on Danish
 #'   female cancer deaths with extra-binomial variation they were, if anything, slightly too narrow. A log-linear model
 #'   of a proportion is adequate only well below 1. A warning is given if a fitted share exceeds `warn_above` in the
-#'   Lexis cells (`max_cell`) or in the cohort pattern of a cohort observed within 5 years of `ref_age`
-#'   (`max_fcp_observed`); cohorts projected to `ref_age` (`max_fcp_all`) can exceed it, or 1, without a warning, and
+#'   Lexis cells (`max_cell`) or in the cohort pattern of a cohort observed at `ref_age` ([cohort_status()]: a cell
+#'   in an age group used for the interpolation at `ref_age`) (`max_fcp_observed`); cohorts projected to `ref_age`
+#'   (`max_fcp_all`) can exceed it, or 1, without a warning, and
 #'   generation means built on them should be read with care. `frac_half` is the fraction of cells whose observed
 #'   share exceeds 0.5.
 #' * `ratio` (secondary check): FCP of the cause over FCP of all causes at `ref_age`, from two rate models (deaths per
@@ -72,10 +73,10 @@ rates_share <- function(R_cause, R_all) {
 #'   * `generations`: data.table `estimator`, `generation`, `n` (cohorts), `mean` share, `se`, `lo`, `hi` (CI on the
 #'     log scale);
 #'   * `check`: data.table `estimator`, `max_cell` (largest fitted share in the Lexis cells; direct estimator only),
-#'     `max_fcp_observed` (largest share in the cohort pattern among the cohorts with an observed cell at ages within
-#'     5 years of `ref_age`, e.g. 45-49 or 50-54 for 50), `max_fcp_all` (all cohorts, including those projected to
-#'     `ref_age`), `frac_half`, `n_filled` (cells without cause deaths, filled);
-#'   * `fcp`: FCP lists (`x`, `f`, `V`, `age`) by estimator, for [fcp_generations()] and [fcp_contrast()];
+#'     `max_fcp_observed` (largest share in the cohort pattern among the cohorts observed at `ref_age`, see
+#'     [cohort_status()]; e.g. a cell at 45-49 or 50-54 for 50 with 5-year groups), `max_fcp_all` (all cohorts,
+#'     including those projected to `ref_age`), `frac_half`, `n_filled` (cells without cause deaths, filled);
+#'   * `fcp`: FCP lists (`x`, `f`, `V`, `age`, `status`) by estimator, for [fcp_generations()] and [fcp_contrast()];
 #'   * `models`: the fits (`direct`; `cause` and `all` for the ratio).
 #' @examples
 #' # synthetic, female, population A: melanoma-like (1) and all cancers (7), 5 x 5
@@ -96,11 +97,11 @@ fcp_share <- function(R_cause, R_all, ref_age = NULL, estimator = c("direct", "r
   if ("ratio" %in% estimator) {
     M$cause <- apc_fit(rates_fill(R_cause), ...); M$all <- apc_fit(rates_fill(R_all), ...)
     fc <- apc_fcp(M$cause, ref_age, per = 1); fa <- apc_fcp(M$all, ref_age, per = 1); f <- fc$f / fa$f
-    fcp$ratio <- list(x = fc$x, f = f, V = (fc$V / tcrossprod(fc$f) + fa$V / tcrossprod(fa$f)) * tcrossprod(f), age = fc$age)
+    fcp$ratio <- list(x = fc$x, f = f, V = (fc$V / tcrossprod(fc$f) + fa$V / tcrossprod(fa$f)) * tcrossprod(f), age = fc$age,
+                      status = fc$status)                                       # same Lexis diagram: same status
   }
-  est <- names(fcp); G <- M[[1]]$G; a <- rep(G$age, G$P)
-  near <- abs(a - fcp[[1]]$age) <= 5 & !is.na(c(R_all$Events))                 # observed cells within 5 years of ref_age
-  obs <- round(fcp[[1]]$x, 6) %in% round((rep(G$per, each = G$A) - a)[near], 6)
+  est <- names(fcp); G <- M[[1]]$G
+  obs <- fcp[[1]]$status == "observed"                                           # cohorts observed at ref_age (cohort_status)
   cell <- if ("direct" %in% est) max(exp(G$X %*% M$direct$B)) else NA_real_
   chk <- data.table(estimator = est, max_cell = unname(c(direct = cell, ratio = NA_real_)[est]),
                     max_fcp_observed = vapply(est, function(e) max(fcp[[e]]$f[obs]), 0, USE.NAMES = FALSE),

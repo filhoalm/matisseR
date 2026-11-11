@@ -10,7 +10,7 @@ fcp_sum(fcps)
 \item{fcps}{list of results of \code{\link[=apc_fcp]{apc_fcp()}} on the same cohorts (independent strata).}
 }
 \value{
-FCP list: \code{x}, summed \code{f} and \code{V}.
+FCP list: \code{x}, summed \code{f} and \code{V}, and \code{age} and \code{status} (of the first FCP; same Lexis diagram).
 }
 \description{
 Sum of fitted cohort patterns (sites combined)
