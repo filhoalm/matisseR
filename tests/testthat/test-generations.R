@@ -38,3 +38,63 @@ test_that("pool_rr: fixed effect with homogeneous strata, DerSimonian-Laird othe
   expect_gt(p$tau2, 0); expect_equal(p$rr_fixed, exp(mean(log(c(0.8, 1.5)))))
   expect_equal(pool_rr(numeric(0), numeric(0))$k, 0L)
 })
+
+test_that("cohort_status: observed at the reference age, or projected forward or backward", {
+  R <- rates_chunk(matisse_example(7), 5, 5)
+  M <- apc_fit(rates_fill(R))
+  L <- data.table::as.data.table(rates_long(R))
+  near <- function(a, b) abs(a - b) < 1e-9
+
+  ## age 60 lies between the midpoints 57.5 and 62.5: a cohort is observed if it has a cell in either group
+  s <- cohort_status(M, 60)
+  ref <- L[, .(obs = any(near(age_mid, 57.5) | near(age_mid, 62.5)), amin = min(age_mid), amax = max(age_mid), n = .N), keyby = coh_mid]
+  expect_equal(s$x, ref$coh_mid)
+  expect_equal(s$status == "observed", ref$obs)
+  expect_equal(s$age_min, ref$amin)
+  expect_equal(s$age_max, ref$amax)
+  expect_equal(s$n_cells, ref$n)
+  expect_true(all(s[status == "forward", age_max] < 57.5))
+  expect_true(all(s[status == "backward", age_min] > 62.5))
+  expect_setequal(unique(s$status), c("observed", "forward", "backward"))
+
+  ## at an age group midpoint only that group enters the interpolation
+  s2 <- cohort_status(M, 62.5)
+  expect_equal(s2$status == "observed", L[, any(near(age_mid, 62.5)), keyby = coh_mid]$V1)
+
+  ## default reference age: the central age group, as apc_fcp()
+  expect_equal(cohort_status(M)$status, apc_fcp(M)$status)
+})
+
+test_that("apc_fcp carries the status; observed_only restricts generation means and contrasts", {
+  R <- rates_chunk(matisse_example(7), 5, 5)
+  M <- apc_fit(rates_fill(R))
+  f <- apc_fcp(M, 60)
+  expect_identical(f$status, cohort_status(M, 60)$status)
+
+  ## default unchanged: all cohorts of each generation, with or without a status
+  f0 <- f[setdiff(names(f), "status")]
+  expect_equal(fcp_generations(f)$table, fcp_generations(f0)$table)
+  expect_equal(fcp_contrast(f), fcp_contrast(f0))
+  expect_error(fcp_generations(f0, observed_only = TRUE))
+
+  ## observed_only: the means use the observed cohorts only
+  gens <- social_generations()
+  g <- fcp_generations(f, observed_only = TRUE, min_cohorts = 1)
+  for (i in seq_len(nrow(gens))) {
+    k <- f$x >= gens$y0[i] & f$x <= gens$y1[i] & f$status == "observed"
+    if (any(k)) expect_equal(g$table$mean[i], mean(f$f[k])) else expect_true(is.na(g$table$mean[i]))
+  }
+  ct <- fcp_contrast(f, observed_only = TRUE, min_cohorts = 1)
+  cs <- generation_contrasts()
+  m <- g$table$mean
+  expect_equal(ct$rr, m[match(cs$to, gens$generation)] / m[match(cs$from, gens$generation)])
+
+  ## sites combined keep the status
+  expect_identical(fcp_sum(list(f, f))$status, f$status)
+})
+
+test_that("cohort_status works on a comparative fit (capricorn)", {
+  R <- setNames(lapply(matisse_example(c(1, 2)), rates_chunk, 5, 5), c("A", "B"))
+  S <- capricorn(lapply(R, rates_fill))
+  expect_equal(cohort_status(S, 60), cohort_status(apc_fit(rates_fill(R[[1]])), 60))
+})

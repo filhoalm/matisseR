@@ -4,7 +4,12 @@
 \alias{fcp_generations}
 \title{Mean fitted cohort pattern by generation}
 \usage{
-fcp_generations(fcp, gens = social_generations(), min_cohorts = 2)
+fcp_generations(
+  fcp,
+  gens = social_generations(),
+  min_cohorts = 2,
+  observed_only = FALSE
+)
 }
 \arguments{
 \item{fcp}{result of \code{\link[=apc_fcp]{apc_fcp()}} or \code{\link[=fcp_sum]{fcp_sum()}}.}
@@ -12,6 +17,9 @@ fcp_generations(fcp, gens = social_generations(), min_cohorts = 2)
 \item{gens}{generations (\code{\link[=social_generations]{social_generations()}}).}
 
 \item{min_cohorts}{fewest cohorts for a generation mean.}
+
+\item{observed_only}{\code{TRUE} to average only the cohorts observed at the reference age (\code{fcp$status}, see
+\code{\link[=cohort_status]{cohort_status()}}); \code{FALSE} (default) to average all the cohorts of each generation, projected ones included.}
 }
 \value{
 list with \code{table} (\code{generation}, \code{n}, \code{mean}, \code{se}) and the covariance \code{V} of the means.

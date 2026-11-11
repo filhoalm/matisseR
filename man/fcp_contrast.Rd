@@ -9,7 +9,8 @@ fcp_contrast(
   contrasts = generation_contrasts(),
   gens = social_generations(),
   alpha = 0.05,
-  min_cohorts = 2
+  min_cohorts = 2,
+  observed_only = FALSE
 )
 }
 \arguments{
@@ -22,6 +23,9 @@ fcp_contrast(
 \item{alpha}{1 - confidence level.}
 
 \item{min_cohorts}{fewest cohorts for a generation mean.}
+
+\item{observed_only}{\code{TRUE} to average only the cohorts observed at the reference age (\code{fcp$status}, see
+\code{\link[=cohort_status]{cohort_status()}}); \code{FALSE} (default) to average all the cohorts of each generation, projected ones included.}
 }
 \value{
 data.table: \code{contrast}, \code{rr}, \code{lo}, \code{hi}, \code{log_rr}, \code{se}.

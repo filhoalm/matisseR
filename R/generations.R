@@ -21,7 +21,8 @@ apc_ef_vcov <- function(M, comp = c("lac", "cac", "ftt", "fcp", "ld"), ref = NUL
 #' @param M fitted model ([apc_fit()]).
 #' @param age reference age; `NULL` for the MATISSE default (central age group).
 #' @param per rate multiplier.
-#' @return list with cohort midpoints `x`, rates `f`, covariance `V` and `age`.
+#' @return list with cohort midpoints `x`, rates `f`, covariance `V`, `age`, and `status` of each cohort at `age`
+#'   (`observed`, `forward` or `backward`; see [cohort_status()]).
 #' @export
 apc_fcp <- function(M, age = NULL, per = 1e5) {
   G <- M$G; r <- apc_ref(M)
@@ -31,7 +32,42 @@ apc_fcp <- function(M, age = NULL, per = 1e5) {
   k0 <- apc_contrast(G, "fcp", replace(r, "a", j)); k1 <- apc_contrast(G, "fcp", replace(r, "a", j + 1))
   X <- (1 - w) * k0$X + w * k1$X
   f <- per * exp(drop(X %*% M$B[k0$i]))
-  list(x = k0$x, f = f, V = X %*% M$V[k0$i, k0$i] %*% t(X) * tcrossprod(f), age = age)
+  list(x = k0$x, f = f, V = X %*% M$V[k0$i, k0$i] %*% t(X) * tcrossprod(f), age = age,
+       status = cohort_status(M, age)$status)
+}
+
+#' Observed or projected: status of each cohort at a reference age
+#'
+#' The fitted cohort pattern at `age` ([apc_fcp()]) is interpolated between the age groups whose midpoints bracket
+#' `age` (one group when `age` is a midpoint; for 5-year groups and age 50, the groups 45-49 and 50-54). A cohort
+#' is `observed` at `age` if it has a Lexis cell in one of these age groups. Otherwise its rate at `age` is a
+#' projection by the model along the cohort: `forward` for a cohort still younger than these age groups at the
+#' end of the data (extrapolated from younger ages), `backward` for a cohort already older at the start of the
+#' data (extrapolated from older ages). One rule for figures, tables and text: label projected cohorts, and
+#' report generation means with and without them (`observed_only` in [fcp_generations()] and [fcp_contrast()]).
+#'
+#' @param M fitted model ([apc_fit()]) or comparative fit ([capricorn()]): a list with the design `G`.
+#' @param age reference age; `NULL` for the MATISSE default (central age group).
+#' @return data.table, one row per cohort: midpoint `x`, `status` (`observed`, `forward`, `backward`), the
+#'   youngest and oldest age group midpoints in which the cohort is observed (`age_min`, `age_max`) and its
+#'   number of Lexis cells (`n_cells`).
+#' @examples
+#' R <- rates_chunk(matisse_example(7), 5, 5)   # all cancers, ages 35-84, 1995-2019, 5 x 5 cells
+#' cohort_status(apc_fit(rates_fill(R)), age = 60)
+#' @export
+cohort_status <- function(M, age = NULL) {
+  G <- M$G
+  if (is.null(age)) age <- G$age[floor((G$A + 1) / 2)]   # the central age group, as apc_ref()
+  stopifnot(age >= min(G$age), age <= max(G$age))
+  j <- findInterval(age, G$age, all.inside = TRUE); w <- (age - G$age[j]) / (G$age[j + 1] - G$age[j])
+  used <- G$age[c(j, j + 1)[c(w < 1, w > 0)]]                # age groups that enter the interpolation at `age`
+  tol <- 1e-6 * G$d
+  has <- outer(G$coh, G$age, function(x, a) vapply(x + a, function(p) any(abs(p - G$per) < tol), TRUE))   # cohort x age cells
+  obs <- apply(has[, match(used, G$age), drop = FALSE], 1, any)
+  amin <- apply(has, 1, function(h) min(G$age[h])); amax <- apply(has, 1, function(h) max(G$age[h]))
+  status <- ifelse(obs, "observed", ifelse(amax < min(used), "forward", "backward"))
+  stopifnot(all(obs | amax < min(used) | amin > max(used)))
+  data.table(x = G$coh, status = status, age_min = amin, age_max = amax, n_cells = rowSums(has))
 }
 
 #' Social generations and proxy parents (JAMA Netw Open 2024)
@@ -61,10 +97,14 @@ generation_contrasts <- function() data.table(
 #' @param fcp result of [apc_fcp()] or [fcp_sum()].
 #' @param gens generations ([social_generations()]).
 #' @param min_cohorts fewest cohorts for a generation mean.
+#' @param observed_only `TRUE` to average only the cohorts observed at the reference age (`fcp$status`, see
+#'   [cohort_status()]); `FALSE` (default) to average all the cohorts of each generation, projected ones included.
 #' @return list with `table` (`generation`, `n`, `mean`, `se`) and the covariance `V` of the means.
 #' @export
-fcp_generations <- function(fcp, gens = social_generations(), min_cohorts = 2) {
-  W <- t(vapply(seq_len(nrow(gens)), function(g) { m <- fcp$x >= gens$y0[g] & fcp$x <= gens$y1[g]
+fcp_generations <- function(fcp, gens = social_generations(), min_cohorts = 2, observed_only = FALSE) {
+  keep <- if (observed_only) { if (is.null(fcp$status)) stop("fcp has no status: use apc_fcp() of this version"); fcp$status == "observed" }
+          else rep(TRUE, length(fcp$x))
+  W <- t(vapply(seq_len(nrow(gens)), function(g) { m <- fcp$x >= gens$y0[g] & fcp$x <= gens$y1[g] & keep
     if (sum(m) >= min_cohorts) m / sum(m) else rep(NA_real_, length(m)) }, numeric(length(fcp$x))))
   V <- W %*% fcp$V %*% t(W)
   list(table = data.table(generation = gens$generation, n = rowSums(W > 0), mean = drop(W %*% fcp$f), se = sqrt(diag(V))),
@@ -81,8 +121,9 @@ fcp_generations <- function(fcp, gens = social_generations(), min_cohorts = 2) {
 #' @param alpha 1 - confidence level.
 #' @return data.table: `contrast`, `rr`, `lo`, `hi`, `log_rr`, `se`.
 #' @export
-fcp_contrast <- function(fcp, contrasts = generation_contrasts(), gens = social_generations(), alpha = 0.05, min_cohorts = 2) {
-  g <- fcp_generations(fcp, gens, min_cohorts); m <- g$table$mean; V <- g$V
+fcp_contrast <- function(fcp, contrasts = generation_contrasts(), gens = social_generations(), alpha = 0.05, min_cohorts = 2,
+                         observed_only = FALSE) {
+  g <- fcp_generations(fcp, gens, min_cohorts, observed_only); m <- g$table$mean; V <- g$V
   a <- match(contrasts$from, gens$generation); b <- match(contrasts$to, gens$generation)
   lr <- log(m[b] / m[a]); se <- sqrt(V[cbind(b, b)] / m[b]^2 + V[cbind(a, a)] / m[a]^2 - 2 * V[cbind(a, b)] / (m[a] * m[b]))
   q <- qnorm(1 - alpha / 2)
@@ -96,7 +137,8 @@ fcp_contrast <- function(fcp, contrasts = generation_contrasts(), gens = social_
 #' @export
 fcp_sum <- function(fcps) {
   stopifnot(all(vapply(fcps, function(z) identical(z$x, fcps[[1]]$x), TRUE)))
-  list(x = fcps[[1]]$x, f = Reduce(`+`, lapply(fcps, `[[`, "f")), V = Reduce(`+`, lapply(fcps, `[[`, "V")), age = fcps[[1]]$age)
+  list(x = fcps[[1]]$x, f = Reduce(`+`, lapply(fcps, `[[`, "f")), V = Reduce(`+`, lapply(fcps, `[[`, "V")), age = fcps[[1]]$age,
+       status = fcps[[1]]$status)
 }
 
 #' Mean local drift of early- and late-onset ages

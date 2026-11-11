@@ -14,7 +14,8 @@ apc_fcp(M, age = NULL, per = 1e+05)
 \item{per}{rate multiplier.}
 }
 \value{
-list with cohort midpoints \code{x}, rates \code{f}, covariance \code{V} and \code{age}.
+list with cohort midpoints \code{x}, rates \code{f}, covariance \code{V}, \code{age}, and \code{status} of each cohort at \code{age}
+(\code{observed}, \code{forward} or \code{backward}; see \code{\link[=cohort_status]{cohort_status()}}).
 }
 \description{
 FCP at \code{age} (log-linear interpolation between the adjacent age midpoints, e.g. 60 between 57.5
